@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Para Lara 💌</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #0d0d1a, #1a002b);
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      color: #fff;
+      height: 100vh;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: radial-gradient(white 1px, transparent 1px);
+      background-size: 40px 40px;
+      animation: sparkle 30s linear infinite;
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    @keyframes sparkle {
+      0% { background-position: 0 0; }
+      100% { background-position: 1000px 1000px; }
+    }
+
+    .intro-container, .next-screen, .quiz-intro {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 1s ease;
+      z-index: 2;
+    }
+
+    .intro-container {
+      z-index: 3;
+    }
+
+    .next-screen, .quiz-intro {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .next-screen.active, .quiz-intro.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      color: #ffccf2;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      margin: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-color: #ff4d6d;
+      color: white;
+    }
+
+    #noBtn {
+      background-color: #444;
+      color: #ddd;
+      position: absolute;
+    }
+
+    .frame {
+      border: 3px solid #fff;
+      border-radius: 20px;
+      padding: 10px;
+      background: #111;
+      box-shadow: 0 0 20px #fff2;
+      margin-bottom: 30px;
+    }
+
+    .frame img {
+      width: 300px;
+      height: auto;
+      border-radius: 12px;
+      display: block;
+    }
+
+    .love-box {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 0 10px #fff1;
+    }
+
+    .love-box p {
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .love-bar {
+      width: 100%;
+      height: 20px;
+      background: #333;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+
+    .love-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #ff4d6d, #ffb3c6);
+      transition: width 0.3s ease;
+    }
+
+    .love-buttons button {
+      font-size: 1.5rem;
+      margin: 0 10px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #fff;
+      transition: transform 0.2s ease;
+    }
+
+    .love-buttons button:hover {
+      transform: scale(1.2);
+    }
+
+    #continueBtn {
+      margin-top: 20px;
+      padding: 12px 30px;
+      font-size: 1.2rem;
+      border-radius: 30px;
+      background: #ff4d6d;
+      border: none;
+      color: white;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1s ease;
+    }
+
+    #continueBtn.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Fogos de artifício simples */
+    .firework {
+      position: absolute;
+      border-radius: 50%;
+      background: radial-gradient(circle, #ff4d6d, transparent);
+      pointer-events: none;
+      animation: fireworkAnim 1s ease forwards;
+      mix-blend-mode: screen;
+      opacity: 0.9;
+    }
+
+    @keyframes fireworkAnim {
+      0% {
+        transform: scale(0.3);
+        opacity: 0.9;
+      }
+      100% {
+        transform: scale(1.5);
+        opacity: 0;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="intro-container" id="intro">
+    <h1>Quer ver o site que fiz pra você?</h1>
+    <button id="yesBtn" class="btn" onclick="startSite()">Sim 💖</button>
+    <button id="noBtn" class="btn" style="left: 50%; top: 60%;">Não 😢</button>
+  </div>
+
+  <div class="next-screen" id="next">
+    <div class="frame">
+      <img src="foto1.jpg" alt="Nossa foto juntos 💑" />
+    </div>
+    <div class="love-box">
+      <p>O quanto você me ama?</p>
+      <div class="love-bar">
+        <div class="love-fill" id="loveFill"></div>
+      </div>
+      <div class="love-buttons">
+        <button onclick="increaseLove()">❤️</button>
+        <button onclick="decreaseLove()">💔</button>
+      </div>
+      <button id="continueBtn" onclick="showQuizIntro()">Continuar</button>
+    </div>
+  </div>
+
+  <div class="quiz-intro" id="quizIntro">
+    <h1>Vamos testar o quanto você entende sobre a gente?</h1>
+    <button class="btn" onclick="startQuiz()">Começar quiz</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const loveFill = document.getElementById('loveFill');
+    const continueBtn = document.getElementById('continueBtn');
+    const nextScreen = document.getElementById('next');
+    const quizIntro = document.getElementById('quizIntro');
+
+    let loveLevel = 0;
+    let lastClickTime = null;
+    let emptyInterval = null;
+
+    // Faz o botão "Não" fugir do mouse
+    document.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX;
+      const mouseY = e.clientY;
+
+      const btnRect = noBtn.getBoundingClientRect();
+      const btnX = btnRect.left + btnRect.width / 2;
+      const btnY = btnRect.top + btnRect.height / 2;
+
+      const distance = Math.hypot(mouseX - btnX, mouseY - btnY);
+
+      if (distance < 100) {
+        const offset = 150;
+
+        let newLeft = btnRect.left + (Math.random() - 0.5) * offset;
+        let newTop = btnRect.top + (Math.random() - 0.5) * offset;
+
+        const btnWidth = noBtn.offsetWidth;
+        const btnHeight = noBtn.offsetHeight;
+        const maxX = window.innerWidth - btnWidth;
+        const maxY = window.innerHeight - btnHeight;
+
+        newLeft = Math.max(0, Math.min(maxX, newLeft));
+        newTop = Math.max(0, Math.min(maxY, newTop));
+
+        noBtn.style.left = `${newLeft}px`;
+        noBtn.style.top = `${newTop}px`;
+      }
+    });
+
+    // Começa a próxima tela com animação
+    function startSite() {
+      document.getElementById('intro').style.opacity = 0;
+      nextScreen.classList.add('active');
+      setTimeout(() => {
+        document.getElementById('intro').style.display = 'none';
+        startEmptying();
+      }, 1000);
+    }
+
+    // Aumenta o amor, mais cliques para chegar a 100%
+    function increaseLove() {
+      lastClickTime = Date.now();
+      loveLevel = Math.min(100, loveLevel + 5); // Clique incrementa 5%
+      updateLoveBar();
+
+      if (loveLevel === 100) {
+        stopEmptying();
+        showContinueBtn();
+        startFireworks();
+      }
+    }
+
+    // Diminui o amor (clicar no 💔)
+    function decreaseLove() {
+      loveLevel = Math.max(0, loveLevel - 10);
+      updateLoveBar();
+      if (loveLevel < 100) {
+        hideContinueBtn();
+        startEmptying();
+      }
+    }
+
+    // Atualiza a barra visual
+    function updateLoveBar() {
+      loveFill.style.width = `${loveLevel}%`;
+    }
+
+    // Quando clicar em continuar mostra a introdução para o quiz
+    function showQuizIntro() {
+      nextScreen.style.opacity = 0;
+      nextScreen.style.pointerEvents = 'none';
+      quizIntro.classList.add('active');
+    }
+
+    // Redireciona para o quiz.html
+    function startQuiz() {
+      window.location.href = 'quiz.html';
+    }
+
+    // Faz a barra esvaziar devagar se não clicar rápido
+    function startEmptying() {
+      if (emptyInterval) return; // Já está esvaziando
+
+      lastClickTime = Date.now();
+      emptyInterval = setInterval(() => {
+        const now = Date.now();
+        const diff = now - lastClickTime;
+
+        // Se passou mais de 3 segundos sem clique, começa a esvaziar
+        if (diff > 3000 && loveLevel > 0 && loveLevel < 100) {
+          loveLevel -= 1;
+          loveLevel = Math.max(0, loveLevel);
+          updateLoveBar();
+          if (loveLevel === 0) {
+            stopEmptying();
+          }
+        }
+      }, 200);
+    }
+
+    function stopEmptying() {
+      if (emptyInterval) {
+        clearInterval(emptyInterval);
+        emptyInterval = null;
+      }
+    }
+
+    function showContinueBtn() {
+      continueBtn.classList.add('visible');
+    }
+
+    function hideContinueBtn() {
+      continueBtn.classList.remove('visible');
+    }
+
+    // Fogos simples (aleatórios)
+    function startFireworks() {
+      const colors = ['#ff4d6d', '#ff9bbf', '#ffccf2', '#ffb3c6'];
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          createFirework();
+        }, i * 300);
+      }
+
+      function createFirework() {
+        const fw = document.createElement('div');
+        fw.className = 'firework';
+        fw.style.left = `${Math.random() * window.innerWidth}px`;
+        fw.style.top = `${Math.random() * window.innerHeight}px`;
+        fw.style.width = '10px';
+        fw.style.height = '10px';
+        fw.style.background = colors[Math.floor(Math.random() * colors.length)];
+        document.body.appendChild(fw);
+
+        fw.addEventListener('animationend', () => {
+          fw.remove();
+        });
+      }
+    }
+  </script>
+
+</body>
+</html>
