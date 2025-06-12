@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz do Amor 💘</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #0d0d1a, #1a002b);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .alert {
+      max-width: 600px;
+      text-align: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      box-shadow: 0 0 20px #ffffff20;
+      margin-bottom: 30px;
+      animation: fadeIn 1s ease;
+    }
+
+    .alert h2 {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+      color: #ff8080;
+    }
+
+    .alert p {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .start-btn {
+      margin-top: 20px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      background: #ff4d6d;
+      border: none;
+      border-radius: 30px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .start-btn:hover {
+      background: #ff3355;
+    }
+
+    .quiz-container {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: 600px;
+      padding: 20px;
+      animation: fadeIn 0.6s ease;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      text-align: center;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .option {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .option:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: scale(1.02);
+    }
+
+    .option.correct {
+      background: #2ecc71 !important;
+    }
+
+    .option.incorrect {
+      background: #e74c3c !important;
+    }
+
+    .lives {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      font-size: 1.2rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="alert" id="alertBox">
+    <h2>⚠️ Atenção meu amor</h2>
+    <p>Para demonstrar o quanto eu confio em você e sei que você irá acertar todas as perguntas,<br>
+    coloquei vidas no canto inferior direito. Caso você erre 3x, este site será excluído automaticamente e tudo será perdido 😱<br>
+    Eu te amo muito, meu pinguim! 🐧❤️</p>
+    <button class="start-btn" onclick="startQuiz()">Começar Quiz</button>
+  </div>
+
+  <div class="quiz-container" id="quizBox">
+    <div class="question" id="questionText"></div>
+    <div class="options" id="optionsContainer"></div>
+  </div>
+
+  <div class="lives">❤️ Vidas: <span id="lives">3</span></div>
+
+  <script>
+    const quizData = [
+      {
+        question: "Qual é a data oficial do nosso namoro?",
+        options: ["24/08/2024", "25/08/2024", "26/08/2024", "23/08/2024", "01/09/2024"],
+        answer: "25/08/2024"
+      },
+      {
+        question: "Onde tivemos o nosso primeiro encontro?",
+        options: ["Hotel plaza", "Shopping Iguatemi", "Cinema do centro", "Na praça", "Na faculdade"],
+        answer: "Hotel plaza"
+      },
+      {
+        question: "Qual apelido fofo eu te dei?",
+        options: ["Coelhinha", "Fofinha", "Docinho", "Pinguim", "Bebezinha"],
+        answer: "Pinguim"
+      },
+      {
+        question: "Qual momento simples foi o mais especial?",
+        options: ["Arrumar nosso quarto do hotel juntos", "Beijo no carro", "Filme na TV", "Conversar por mensagem", "Andar de mãos dadas"],
+        answer: "Arrumar nosso quarto do hotel juntos"
+      },
+      {
+        question: "Já cozinhamos juntos?",
+        options: ["Sim, strogonoff", "Não", "Acho que sim", "Pizza", "Sopa"],
+        answer: "Sim, strogonoff"
+      },
+      {
+        question: "Qual universo mágico gostamos?",
+        options: ["Harry Potter", "Senhor dos Anéis", "Nárnia", "Percy Jackson", "Star Wars"],
+        answer: "Harry Potter"
+      },
+      {
+        question: "Qual foi o último filme que assistimos?",
+        options: ["O jurado Numero 2", "Garota Exemplar", "Duna 2", "Batman", "Oppenheimer"],
+        answer: "O jurado Numero 2"
+      }
+    ];
+
+    let currentQuestion = 0;
+    let lives = 3;
+
+    function startQuiz() {
+      document.getElementById("alertBox").style.display = "none";
+      document.getElementById("quizBox").style.display = "flex";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = quizData[currentQuestion];
+      document.getElementById("questionText").textContent = q.question;
+      const container = document.getElementById("optionsContainer");
+      container.innerHTML = "";
+
+      q.options.sort(() => Math.random() - 0.5); // embaralhar
+      q.options.forEach(opt => {
+        const btn = document.createElement("div");
+        btn.className = "option";
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(btn, opt === q.answer);
+        container.appendChild(btn);
+      });
+    }
+
+    function checkAnswer(button, isCorrect) {
+      const options = document.querySelectorAll('.option');
+      options.forEach(opt => opt.onclick = null);
+      if (isCorrect) {
+        button.classList.add("correct");
+        setTimeout(() => {
+          currentQuestion++;
+          if (currentQuestion < quizData.length) {
+            showQuestion();
+          } else {
+            document.getElementById("quizBox").innerHTML = `
+              <h2 style="text-align: center;">Parabéns, meu amor! Você completou o quiz! 💖🐧</h2>
+              <button class="start-btn" style="margin-top: 30px;" onclick="location.href='declarasao.html'">Continuar</button>
+            `;
+          }
+        }, 1000);
+      } else {
+        button.classList.add("incorrect");
+        lives--;
+        document.getElementById("lives").textContent = lives;
+        if (lives === 0) {
+          document.body.innerHTML = "<h1 style='text-align:center; margin-top:20vh;'>😢 Você perdeu todas as vidas e o site foi deletado...<br>Brincadeirinha! Mas da próxima acerta tudo hein 😘</h1>";
+        } else {
+          setTimeout(() => showQuestion(), 1200);
+        }
+      }
+    }
+  </script>
+</body>
+</html>

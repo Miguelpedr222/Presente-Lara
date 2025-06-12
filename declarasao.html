@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Declaração de Amor 💖</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: #12131a;
+      color: #e0e0e0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      user-select: none;
+      min-height: 100vh;
+    }
+
+    .gallery {
+      width: 100%;
+      max-width: 620px;
+      height: 420px;
+      background: rgba(255 255 255 / 0.05);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .gallery img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      border-radius: 12px;
+      display: block;
+      opacity: 1;
+      transition: opacity 0.3s ease;
+      background-color: #12131a;
+    }
+
+    .photo-controls {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .photo-controls button {
+      background: transparent;
+      border: 2px solid #ff6584;
+      color: #ff6584;
+      padding: 10px 22px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      outline-offset: 4px;
+      outline-color: transparent;
+    }
+    .photo-controls button:hover,
+    .photo-controls button:focus {
+      background: #ff6584;
+      color: #12131a;
+      outline-color: #ff6584;
+      outline-style: solid;
+    }
+
+    .counter {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .counter-box {
+      background: #22232b;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ff6584;
+      min-width: 60px;
+      user-select: text;
+      transition: background-color 0.3s ease;
+    }
+    .counter-box:hover {
+      background: #2f2f3d;
+    }
+
+    .love-message {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #ff6584;
+      letter-spacing: 0.04em;
+      user-select: none;
+      margin-bottom: 50px;
+    }
+
+    /* Texto que aparece ao scroll */
+    .scroll-text {
+      max-width: 640px;
+      margin: 0 auto 60px;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #ddd;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s ease, transform 1s ease;
+      user-select: text;
+      text-align: left;
+      padding: 0 12px;
+    }
+    .scroll-text.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="gallery">
+    <img id="photo" src="" alt="Nossa foto juntos" />
+  </div>
+
+  <div class="photo-controls">
+    <button onclick="prevPhoto()" aria-label="Foto anterior">← Anterior</button>
+    <button onclick="nextPhoto()" aria-label="Próxima foto">Próxima →</button>
+  </div>
+
+  <div class="counter" id="loveCounter">
+    <div class="counter-box" id="months">0m</div>
+    <div class="counter-box" id="days">0d</div>
+    <div class="counter-box" id="hours">0h</div>
+    <div class="counter-box" id="minutes">0min</div>
+    <div class="counter-box" id="seconds">0s</div>
+  </div>
+
+  <div class="love-message">Nosso amor está crescendo... 💞</div>
+
+  <div id="scrollText" class="scroll-text" aria-live="polite">
+    Gostaria de ver dançar, gostaria de ver sorrir, gostaria de te ouvir falar, gostaria de ouvir seu eu te amo, eu gostaria de ouvir você quando todos negarem te escutar, eu quero estar aqui quando ninguém mais estiver, eu quero pegar na sua mão mais uma vez e dizer que você é importante para mim. Eu quero ser visto por você, valorizado por você. Quero te mostrar o que é bom na vida, e estar com você quando você descobrir o que é ruim. Quero acompanhar as suas conquistas e conquistar você do mesmo jeito que iremos conquistar a nossa casa. Quero que você se sinta amada por mim, e eu não quero mais te ouvir chorar. Sinto saudades das suas risadas e do jeito como voce me olha após nos beijarmos. Sinto falta de acordar na mesma cama que você, e ver você sorrindo acordando enquanto me abraça, sinto falta de beber nescau com você. Eu amo estar com você, eu amo você, amo você, amo você, amo você, amo você. Eu nunca te trocaria por nada nesse mundo. <br><br>
+
+    Sei que não sou perfeito, sei que eu erro. Mas nesses 8 meses eu aprendi muita coisa com você e sobre você. Sei que você gosta de conversas profundas, sei que gosta de nescau quente em dias frios, e de sempre assistir algo enquanto come. Voce odeia o calor (ficar suada). Fica estressada quando está com fome, ou quando as coisas não saem como você esperava; Gosta de banhos quentes, e seu copo de leite precisa estar em um copo grande. O miojo para você é bom, mas é ótimo apenas se tiver requeijão. Você se estressa quando sente que a sua privacidade está sendo invadida, e não gosta de aranhas. Você gosta de abraços mesmo não recebendo muitos em seu dia a dia (até eu chegar). Você se estressa quando algo te irrita, e muitas vezes não gosta de se sentir assim. A sua comida favorita é strogonoff de frango, e você não gosta de maçã. Seu feijão precisa estar por cima do arroz e não por baixo, e você só come de colher. Você precisa usar óculos mas ignora isto a um tempo. Você odeia a sensação de não ter o que queria ter, pois antes de trabalhar era quase impossível você ter algo que VOCÊ queria. A parte do seu corpo que você mais gosta são seus olhos, e o seu cabelo. (A parte que eu mais gosto do seu corpo, é ele por inteiro). Você tem mãos pequenas, delicadas e macias. Sua cantora favorita é a lana del rey e um dos seus sonhos é ver e conhecer ela um dia. Você removeu suas amigdalas quando era criança e para isso precisou fazer uma cirurgia. Você ama acessórios dourados e acha que não combina com prateados. Você tem dúvidas sobre o nosso relacionamento, mas também medo que acabe, (eu tambem tenho medo que acabe). Você ama câmeras e fotografia, e se pudesse viveria de uma vibe desse estilo. Você ama livros, e gosta muito do livro The poppy war. Você tem medo da rejeição, e isso explica bastante coisa não é mesmo? Você ama animais e a natureza, e também ama os seus gatos. O seu melhor amigo é o seu cachorro scooby, o amor que você sente por ele é algo incrível. Você ama a sua tia, e ela é a sua melhor amiga. A unica parte boa do seu dia é fazer o café do seu trabalho (e eu achando que era falar comigo🥲). E a sua cor favorita é azul, mas você sente que verde combina com você. <br><br>
+
+    O que eu estou querendo te mostrar, é que eu sou seu amigo meu bem, e que mesmo eu te decepcionando muitas vezes, você ainda pode contar comigo para qualquer coisa que precisar, eu to aqui com você, por você e para você meu amor, e quero sempre estar. Quero te conhecer mais e mais, e sempre. SEMPRE estar te conhecendo mais e mais, porque eu nunca me cansaria disso... Então, sabendo  de tudo isso, eu posso te dizer com muita sinceridade, que eu espero de verdade que tenhamos diversos outros dia dos namorados juntos. Eu te amo muito meu amor e sempre vou te amar!!
+    Feliz diz dos namorados para a gente🐧❤
+  </div>
+
+  <script>
+    const startDate = new Date("2024-07-25T00:00:00");
+
+    function updateCounter() {
+      const now = new Date();
+      let diff = Math.floor((now - startDate) / 1000);
+
+      const seconds = diff % 60;
+      diff = Math.floor(diff / 60);
+      const minutes = diff % 60;
+      diff = Math.floor(diff / 60);
+      const hours = diff % 24;
+      diff = Math.floor(diff / 24);
+      const days = diff % 30;
+      const months = Math.floor(diff / 30);
+
+      document.getElementById("months").textContent = months + "m";
+      document.getElementById("days").textContent = days + "d";
+      document.getElementById("hours").textContent = hours + "h";
+      document.getElementById("minutes").textContent = minutes + "min";
+      document.getElementById("seconds").textContent = seconds + "s";
+    }
+
+    setInterval(updateCounter, 1000);
+    updateCounter();
+
+    // Galeria de fotos
+    const photos = [
+      "foto1.jpg",
+      "foto2.jpg",
+      "foto3.jpg",
+      "foto4.jpg",
+      "foto5.jpg",
+      "foto6.jpg",
+      "foto7.jpg",
+      "foto8.jpg",
+    ];
+
+    let currentIndex = 0;
+    const photoEl = document.getElementById("photo");
+    function showPhoto(i) {
+      if (i < 0) i = photos.length - 1;
+      if (i >= photos.length) i = 0;
+      currentIndex = i;
+      photoEl.style.opacity = 0;
+      setTimeout(() => {
+        photoEl.src = photos[currentIndex];
+        photoEl.style.opacity = 1;
+      }, 300);
+    }
+    function prevPhoto() {
+      showPhoto(currentIndex - 1);
+    }
+    function nextPhoto() {
+      showPhoto(currentIndex + 1);
+    }
+    showPhoto(currentIndex);
+
+    // Efeito de aparecer o texto ao rolar
+    const scrollText = document.getElementById("scrollText");
+    function checkScroll() {
+      const rect = scrollText.getBoundingClientRect();
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+      // Se o topo do texto estiver a menos de 80% da janela visível
+      if (rect.top < windowHeight * 0.8) {
+        scrollText.classList.add("visible");
+      } else {
+        scrollText.classList.remove("visible");
+      }
+    }
+
+    window.addEventListener("scroll", checkScroll);
+    // Verifica imediatamente para caso já esteja visível ao carregar
+    checkScroll();
+  </script>
+</body>
+</html>
